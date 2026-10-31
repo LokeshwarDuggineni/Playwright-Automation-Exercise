@@ -1,0 +1,18 @@
+{
+  "name": "Test",
+  "password": "Test@1234",
+  "day": "21",
+  "month": "May",
+  "year": "2001",
+  "firstName": "Test",
+  "lastName": "User",
+  "address": "Test Street",
+  "state": "AP",
+  "city": "Hyderabad",
+  "zipcode": "500001",
+  "mobileNumber": "9999999999",
+  "validEmail":"test20012001@gmail.com",
+  "validPassword":"Test@1234",
+  "invalidEmail": "wronguser@gmail.com",
+"invalidPassword": "WrongPassword123"
+}
