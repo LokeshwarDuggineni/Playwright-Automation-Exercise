@@ -63,3 +63,11 @@ test("Test Case 5: Register User with existing email", async ({page, signupPage}
     await expect(page.getByText("Email Address already exist!")).toBeVisible();
     
 })
+
+test("Test Case 7: Verify Test Cases Page", async ({page, signupPage})=>{
+    await signupPage.verifyHome();
+    await signupPage.openTestCases();
+    await expect(page).toHaveURL(/test_cases/);
+    await expect(page.getByText("Test Case 1: Register User")).toBeVisible();
+
+})

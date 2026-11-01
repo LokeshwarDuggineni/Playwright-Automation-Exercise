@@ -32,6 +32,7 @@ class SignupPage {
         this.loginBtn = page.locator("[data-qa='login-button']");
         this.home= page.getByRole("link", { name: " Home" });
         this.logoutBtn = page.getByRole("link",{name:" Logout"});
+        this.testcasesPage = page.locator(".navbar-nav").getByRole("link",{name:" Test Cases"});
 
     }
 
@@ -91,6 +92,10 @@ class SignupPage {
 
     async logout(){
         await this.logoutBtn.click();
+    }
+
+    async openTestCases(){
+        await this.testcasesPage.click();
     }
 }
 
