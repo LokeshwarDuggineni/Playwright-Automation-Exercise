@@ -33,6 +33,9 @@ class SignupPage {
         this.home= page.getByRole("link", { name: " Home" });
         this.logoutBtn = page.getByRole("link",{name:" Logout"});
         this.testcasesPage = page.locator(".navbar-nav").getByRole("link",{name:" Test Cases"});
+        this.products = page.locator(".navbar-nav").getByRole("link",{name:" Products"});
+
+
 
     }
 
@@ -96,6 +99,9 @@ class SignupPage {
 
     async openTestCases(){
         await this.testcasesPage.click();
+    }
+    async openProductsPage(){
+        await this.products.click();
     }
 }
 
