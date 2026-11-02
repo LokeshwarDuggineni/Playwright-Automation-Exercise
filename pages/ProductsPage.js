@@ -12,6 +12,8 @@ class ProductsPage {
     this.productCondition = this.productInfo.locator("p").filter({ hasText: "Condition:" });
     this.productBrand = this.productInfo.locator("p").filter({ hasText: "Brand:" });
     this.productPrice = this.productInfo.locator("span").filter({hasText: /^Rs\./});
+    this.searchField = page.getByPlaceholder("Search Product");
+    this.searchIcon = page.locator("#submit_search");
   }
 
   async verifyProducts() {
@@ -55,6 +57,22 @@ class ProductsPage {
 
     console.log(productDetails);
     return productDetails;
-}}
+}
+  async searchProduct(product){
+    await this.searchField.fill(product);
+    await this.searchIcon.click();
+
+  }
+
+  async verifyProductSearch(product){
+    await this.productsList.first().waitFor();
+      const count = await this.productsList.count();
+            
+      for (let i = 0; i < count; i++) {
+        await expect(this.productsList.nth(i).locator(".productinfo")).toContainText(new RegExp(product, "i"))
+        
+      }
+  }
+}
 
 module.exports = { ProductsPage };
