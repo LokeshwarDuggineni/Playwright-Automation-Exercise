@@ -34,7 +34,9 @@ class SignupPage {
         this.logoutBtn = page.getByRole("link",{name:" Logout"});
         this.testcasesPage = page.locator(".navbar-nav").getByRole("link",{name:" Test Cases"});
         this.products = page.locator(".navbar-nav").getByRole("link",{name:" Products"});
-
+        this.subcscribeField=page.getByPlaceholder("Your email address");
+        this.subscribeBtn = page.locator("#subscribe");
+        this.cartBtn = page.getByRole("link",{name:" Cart"});
 
 
     }
@@ -102,6 +104,18 @@ class SignupPage {
     }
     async openProductsPage(){
         await this.products.click();
+    }
+
+    async subscribe(email){
+        await this.subcscribeField.scrollIntoViewIfNeeded();
+        await expect(this.page.getByText("Subscription")).toBeVisible();
+        await this.subcscribeField.fill(email);
+        await this.subscribeBtn.click();
+    }
+
+    async openCart(){
+        await this.cartBtn.click();
+        await expect(this.page).toHaveURL(/view_cart/);
     }
 }
 

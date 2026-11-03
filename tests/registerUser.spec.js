@@ -71,3 +71,17 @@ test("Test Case 7: Verify Test Cases Page", async ({page, signupPage})=>{
     await expect(page.getByText("Test Case 1: Register User")).toBeVisible();
 
 })
+
+test("Test Case 10: Verify Subscription in home page", async ({page, signupPage})=>{
+    await signupPage.verifyHome();
+    await signupPage.subscribe(userData.validEmail);
+    await expect(page.getByText("You have been successfully subscribed!")).toBeVisible();
+//    await expect(page.getByText("You have been successfully subscribed!")).toBeHidden();
+})
+
+test("Test Case 11: Verify Subscription in Cart page", async ({page, signupPage})=>{
+    await signupPage.verifyHome();
+    await signupPage.openCart();
+    await signupPage.subscribe(userData.validEmail);
+    await expect(page.getByText("You have been successfully subscribed!")).toBeVisible();
+})
