@@ -36,7 +36,7 @@ class SignupPage {
         this.products = page.locator(".navbar-nav").getByRole("link",{name:" Products"});
         this.subcscribeField=page.getByPlaceholder("Your email address");
         this.subscribeBtn = page.locator("#subscribe");
-        this.cartBtn = page.getByRole("link",{name:" Cart"});
+        this.cartBtn = page.getByRole("link",{name:" Cart"}, {exact:"true"});
 
 
     }
@@ -104,6 +104,8 @@ class SignupPage {
     }
     async openProductsPage(){
         await this.products.click();
+      await expect(this.page).toHaveURL(/products/)
+
     }
 
     async subscribe(email){
