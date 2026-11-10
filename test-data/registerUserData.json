@@ -12,6 +12,7 @@
   "zipcode": "500001",
   "mobileNumber": "9999999999",
   "validEmail":"test20012001@gmail.com",
+  "registerEmail":"testtest001@gmail.com",
   "validPassword":"Test@1234",
   "invalidEmail": "wronguser@gmail.com",
 "invalidPassword": "WrongPassword123"
