@@ -20,6 +20,21 @@ class ProductsPage {
     this.quantityField = page.locator("#quantity");
     this.addToCartBtn=page.getByRole("button", {name:"Add to cart"});
     this.headers =  this.cartTable.locator(".cart_menu td");
+    this.proceedToCheckout = page.getByText('Proceed To Checkout', { exact: true })
+    this.registerLoginBtn = page.getByRole("link",{name:"Register / Login"});
+    this.deliveryAddress= page.locator("#address_delivery");
+    this.addressName = this.deliveryAddress.locator(".address_firstname");
+    this.addressCity = this.deliveryAddress.locator(".address_city");
+    this.addressCountry= this.deliveryAddress.locator(".address_country_name");
+    this.addressPhone = this.deliveryAddress.locator(".address_phone");
+    this.message= page.locator("[name='message']");
+    this.placeOrder= page.getByRole("link",{name:"Place Order"});
+    this.nameOnCard = page.locator("[name='name_on_card']");
+    this.cardNumber = page.locator("[name='card_number']");
+    this.cvc = page.locator("[name='cvc']");
+    this.expiry_month = page.locator("[name='expiry_month']");
+    this.expiry_year = page.locator("[name='expiry_year']");
+    this.payConfirm= page.getByRole("button", {name:"Pay and Confirm Order"});
 
   }
 
@@ -143,6 +158,91 @@ class ProductsPage {
    expect(row.getByRole("cell").nth(quantityHeader)).toHaveText(String(quantity));
 
   }
+
+  async clickProceedToCheckOut(){
+    await this.proceedToCheckout.click();
+  }
+
+  async clickRegisterLogin(){
+    await this.registerLoginBtn.click();
+  }
+
+  async verifyDeliveryAddress(data){
+    await expect(this.page.getByText("Your delivery address")).toBeVisible();
+    await expect(await this.addressName).toHaveText(`Mr. ${data.firstName} ${data.lastName}`);
+    await expect(await this.addressCity).toContainText(data.city);
+    await expect(await this.addressPhone).toHaveText(data.mobileNumber);
+  }
+
+  async fillMessage(){
+    await this.message.fill("Temp");
+  }
+
+  async fillCardDetails(data){
+    await this.nameOnCard.fill(data.nameOnCard);
+   await this.cardNumber.fill(data.cardNumber);
+    await this.cvc.fill(data.cvc);
+    await this.expiry_month.fill(data.expiryMonth);
+    await this.expiry_year.fill(data.expiryYear);
+  }
+  async clickPlaceOrder(){
+    await this.placeOrder.click();
+  }
+
+  async payConfirmOrder(){
+    await this.payConfirm.click();
+    await expect(this.page.getByText("Congratulations! Your order has been confirmed!")).toBeVisible();
+  }
+
+  async verifyRemoveProduct(name){
+    const row= this.cartTable.getByRole("row").filter({hasText:name});
+    await expect(row).toBeVisible();
+    await row.locator(".cart_quantity_delete").click();
+    await expect(row).toBeHidden();
+  }
+
+  // async selectCategory(category, subCategory){
+    
+  //   await expect(this.page.getByRole('heading', { name: 'Category' })).toBeVisible();
+  //   const parent=this.page.locator(".panel-default").locator(`#${category}`);
+  //   await parent.click();
+  //   await parent.getByRole("link",{name:subCategory}).click();
+ 
+
+  //   await expect(
+  //       this.page.getByRole('heading', {
+  //           name: `${category} - ${subCategory} Products`
+  //       })
+  //   ).toBeVisible();
+  // }
+async selectCategory(category, subCategory) {
+    const categoryPanel = this.page.locator(".panel-default")
+        .filter({
+            has: this.page.locator(`a[href="#${category}"]`)
+        });
+
+    const categoryLink = categoryPanel.locator(
+        `a[href="#${category}"]`
+    );
+
+    const subCategoryPanel = categoryPanel.locator(`#${category}`);
+
+    // Expand category only when collapsed
+    if (!(await subCategoryPanel.isVisible())) {
+        await categoryLink.click();
+    }
+
+    await expect(subCategoryPanel).toBeVisible();
+
+    const subCategoryLink = subCategoryPanel.getByRole("link", {
+        name: new RegExp(`^${subCategory}$`, "i")
+    });
+
+    await expect(subCategoryLink).toBeVisible();
+    await subCategoryLink.click();
+
+    await expect(this.page).toHaveURL(/\/category_products\/\d+/);
+}
 }
 
 module.exports = { ProductsPage };

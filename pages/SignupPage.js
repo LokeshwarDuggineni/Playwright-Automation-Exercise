@@ -37,7 +37,8 @@ class SignupPage {
         this.subcscribeField=page.getByPlaceholder("Your email address");
         this.subscribeBtn = page.locator("#subscribe");
         this.cartBtn = page.getByRole("link",{name:" Cart"}, {exact:"true"});
-
+        this.continue =page.getByRole("link", { name: "Continue" });
+        this.deleteBtn= page.getByRole('link', { name: 'Delete Account' });
 
     }
 
@@ -118,6 +119,15 @@ class SignupPage {
     async openCart(){
         await this.cartBtn.click();
         await expect(this.page).toHaveURL(/view_cart/);
+    }
+
+    async clickContinue(){
+        this.continue.click();
+    }
+
+    async deleteAccount(){
+        await this.deleteBtn.click();
+        await expect(this.page.getByText("ACCOUNT DELETED!")).toBeVisible();
     }
 }
 

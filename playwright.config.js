@@ -8,8 +8,9 @@ module.exports = defineConfig({
   reporter: 'html',
 
   use: {
+        baseURL: 'https://www.automationexercise.com/',
     headless: false,
-    trace: 'on-first-retry',
+    trace: 'on',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
